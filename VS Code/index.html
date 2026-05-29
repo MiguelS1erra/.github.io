@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miguel Sierra | Mechanical Engineering Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- AOS (Animate On Scroll) CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- GLightbox (Full-screen popup) CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+
+    <style>
+        /* --- BASE STYLES --- */
+        :root {
+            --bg-color: #fbfbfa; 
+            --text-main: #121212; 
+            --text-light: #6a6a6a; 
+            --border-color: #e8e8e6; 
+            --accent: #121212;
+            --ai-accent: #2563eb; 
+            --timeline-blue: #5AB2E6; 
+            --timeline-dot-border: #daecf8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .container { padding: 0 8%; max-width: 1400px; margin: 0 auto; }
+
+        /* Added h4 to ensure subheaders get the Space Grotesk font */
+        h1, h2, h3, h4, .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+
+        /* --- SPA PAGE ROUTING --- */
+        .page-view { display: none; animation: fadeIn 0.5s ease-out forwards; min-height: 80vh; }
+        .page-view.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- STICKY NAVIGATION --- */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 2.5rem 8%; position: sticky; top: 0; background-color: rgba(251, 251, 250, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); z-index: 100; }
+        .logo { font-size: 1.5rem; letter-spacing: -1px; cursor: pointer; }
+        .nav-links { list-style: none; display: flex; gap: 2.5rem; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 500; font-size: 0.9rem; transition: opacity 0.2s; cursor: pointer; }
+        .nav-links a:hover, .nav-links a.active-link { opacity: 0.5; }
+        .nav-links a.ai-nav-link { color: var(--ai-accent); background: rgba(37, 99, 235, 0.08); padding: 0.5rem 1.2rem; border-radius: 20px; font-weight: 600; }
+        .nav-links a.ai-nav-link:hover { opacity: 0.8; }
+
+        /* --- HEADERS --- */
+        .hero-section { padding: 10rem 0 6rem 0; max-width: 900px; }
+        .hero-section h1 { font-size: 5rem; margin-bottom: 1.5rem; letter-spacing: -3px; line-height: 1.05; }
+        .hero-subtitle { font-size: 1.75rem; color: var(--text-light); font-weight: 300; line-height: 1.4; letter-spacing: -0.5px; }
+
+        .page-header { padding: 8rem 0 4rem 0; border-bottom: 1px solid var(--border-color); margin-bottom: 4rem; }
+        .page-header h1 { font-size: 4rem; letter-spacing: -2px; }
+
+        /* --- STRENGTHS & WEAKNESSES (About Page) --- */
+        .traits-section { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; padding: 2rem 0 6rem 0; }
+        .trait-box h3 { font-size: 1.4rem; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
+        .trait-box ul { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+        .trait-box li { position: relative; padding-left: 1.5rem; color: var(--text-light); }
+        .trait-box li::before { content: "—"; position: absolute; left: 0; color: var(--text-main); font-weight: bold; }
+
+        /* --- RESUME DETAILS (About Page) --- */
+        .resume-details { display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; padding-bottom: 6rem; }
+        .resume-col h3 { font-size: 1.2rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; }
+        .resume-item { margin-bottom: 2rem; }
+        .resume-item h4 { font-size: 1.3rem; font-weight: 700; }
+        .resume-item span { color: var(--timeline-blue); font-weight: 600; font-size: 0.95rem; display: block; margin: 0.2rem 0 0.5rem 0;}
+        .resume-item p { color: var(--text-light); }
+
+        .section-title { font-size: 2.2rem; letter-spacing: -1px; margin-bottom: 4rem; text-align: center; }
+
+        /* --- HEINRICH EDITORIAL PROJECT BLOCKS --- */
+        .project-hero-img { width: 100%; height: 70vh; object-fit: cover; border-radius: 8px; margin-bottom: 4rem; background-color: #eaeae8; }
+        .project-detail-wrapper { max-width: 1000px; margin: 0 auto; }
+        .project-header-title { font-size: 3.5rem; letter-spacing: -1.5px; margin-bottom: 1rem; color: var(--text-main); }
+        .project-header-subtitle { font-size: 1.5rem; color: var(--text-light); margin-bottom: 4rem; font-weight: 300; line-height: 1.4; }
+        
+        .project-grid-info { display: grid; grid-template-columns: 1fr 2.5fr; gap: 4rem; margin-bottom: 6rem; border-top: 1px solid var(--border-color); padding-top: 4rem; }
+        .project-meta-item { margin-bottom: 2rem; }
+        .project-meta-item h4 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-bottom: 0.5rem; font-family: 'Space Grotesk', sans-serif; }
+        .project-meta-item p { font-weight: 500; font-size: 1rem; color: var(--text-main); }
+        .project-text-content p { font-size: 1.2rem; line-height: 1.8; color: var(--text-main); margin-bottom: 2rem; font-weight: 300; }
+
+        /* Modular Content Blocks for easy copy-pasting */
+        .project-image-full { width: 100%; border-radius: 8px; background-color: #eaeae8; object-fit: cover; margin-bottom: 4rem; }
+        
+        .project-image-half { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-bottom: 4rem; }
+        .project-image-half img { width: 100%; border-radius: 8px; background-color: #eaeae8; object-fit: cover; }
+        
+        .project-text-block { max-width: 800px; margin: 0 auto 4rem auto; }
+        
+        /* Updated header styles to ensure consistency across text blocks */
+        .project-text-block h3, .project-text-content h3 { font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--text-main); letter-spacing: -0.5px; }
+        .project-text-block h4, .project-text-content h4 { font-size: 1.3rem; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--text-main); }
+        .project-text-block p { font-size: 1.2rem; line-height: 1.8; color: var(--text-light); margin-bottom: 1.5rem; font-weight: 300; }
+        
+                /* --- PROJECT TABLE (BOM) & LISTS --- */
+        .project-table-wrapper { max-width: 1000px; margin: 0 auto 4rem auto; overflow-x: auto; }
+        .project-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .project-table th { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-main); padding: 1.5rem 1rem; border-bottom: 2px solid var(--text-main); }
+        .project-table td { padding: 1.5rem 1rem; border-bottom: 1px solid var(--border-color); color: var(--text-light); font-size: 1.05rem; }
+        .project-table tr:last-child td { border-bottom: none; }
+        .project-table td strong { color: var(--text-main); font-weight: 700; }
+        
+        .project-text-block ol, .project-text-block ul { margin-left: 2rem; color: var(--text-light); font-size: 1.2rem; margin-bottom: 1.5rem; line-height: 1.8; }
+        .project-text-block ol { list-style-type: decimal; }
+        .project-text-block ul { list-style-type: disc; }
+        .project-text-block ol li, .project-text-block ul li { margin-bottom: 0.5rem; padding-left: 0.5rem; }
+        .project-text-block ol li strong, .project-text-block ul li strong { color: var(--text-main); }
+
+        .back-link { cursor: pointer; color: var(--timeline-blue); font-weight: 600; margin-bottom: 2rem; display: inline-block; transition: opacity 0.2s; }
+        .back-link:hover { opacity: 0.7; }
+
+        /* --- ALTERNATING TIMELINE --- */
+        .timeline-section { padding: 4rem 0 8rem 0; }
+        .timeline { position: relative; display: flex; flex-direction: column; gap: 2rem; max-width: 1000px; margin: 0 auto; padding: 2rem 0; }
+        .timeline::after { content: ''; position: absolute; width: 4px; background-color: var(--border-color); top: 0; bottom: 0; left: 50%; margin-left: -2px; z-index: 1; }
+        .timeline::before { content: ''; position: absolute; width: 16px; height: 16px; background-color: var(--border-color); border-radius: 50%; top: -8px; left: 50%; transform: translateX(-50%); z-index: 2; }
+        .timeline-bottom-cap { position: absolute; width: 16px; height: 16px; background-color: var(--border-color); border-radius: 50%; bottom: -8px; left: 50%; transform: translateX(-50%); z-index: 2; }
+        .timeline-item { position: relative; display: flex; justify-content: space-between; align-items: flex-start; width: 100%; margin-bottom: 2rem; z-index: 3; }
+        .timeline-item:nth-child(odd) { flex-direction: row; }
+        .timeline-item:nth-child(odd) .timeline-date-container { text-align: right; padding-right: 3.5rem; }
+        .timeline-item:nth-child(even) { flex-direction: row-reverse; }
+        .timeline-item:nth-child(even) .timeline-date-container { text-align: left; padding-left: 3.5rem; }
+        .timeline-date-container { width: 45%; padding-top: 25px; }
+        .timeline-date { color: var(--timeline-blue); font-weight: 700; font-size: 1.25rem; }
+        .timeline-location { color: var(--text-light); font-size: 0.95rem; margin-top: 0.3rem; }
+        .timeline-dot { position: absolute; left: 50%; top: 25px; transform: translateX(-50%); width: 48px; height: 48px; background: white; border: 5px solid var(--timeline-dot-border); border-radius: 50%; z-index: 10; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 4px var(--bg-color); }
+        .timeline-dot svg { width: 20px; height: 20px; fill: var(--timeline-blue); }
+        .timeline-card { width: 45%; background: white; border-radius: 8px; padding: 2.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03); position: relative; border: 1px solid var(--border-color); border-top: 5px solid var(--timeline-blue); }
+        .timeline-card h3 { font-size: 1.4rem; margin-bottom: 0.2rem; font-weight: 700; color: var(--timeline-blue); }
+        .timeline-card .company { font-weight: 600; color: var(--text-light); margin-bottom: 1.2rem; font-size: 0.95rem; text-transform: uppercase; }
+        .timeline-card p { font-size: 1.05rem; color: #444; }
+        .timeline-card::before, .timeline-card::after { content: ''; position: absolute; top: 30px; width: 0; height: 0; border-style: solid; }
+        .timeline-item:nth-child(odd) .timeline-card::before { left: -12px; border-width: 12px 12px 12px 0; border-color: transparent var(--border-color) transparent transparent; }
+        .timeline-item:nth-child(odd) .timeline-card::after { left: -10px; border-width: 12px 12px 12px 0; border-color: transparent white transparent transparent; }
+        .timeline-item:nth-child(even) .timeline-card::before { right: -12px; border-width: 12px 0 12px 12px; border-color: transparent transparent transparent var(--border-color); }
+        .timeline-item:nth-child(even) .timeline-card::after { right: -10px; border-width: 12px 0 12px 12px; border-color: transparent transparent transparent white; }
+
+        /* --- PROJECTS GRID --- */
+        .projects-section { padding: 4rem 0 8rem 0; }
+        .project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .project-card { position: relative; display: block; border-radius: 4px; overflow: hidden; background-color: #eaeae8; cursor: pointer; text-decoration: none; }
+        .project-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease; }
+        .project-overlay { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.3); display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.4s ease; color: white; text-align: center; padding: 2rem; z-index: 10; pointer-events: none; }
+        .project-card:hover img { transform: scale(1.05); filter: blur(8px) brightness(0.6); }
+        .project-card:hover .project-overlay { opacity: 1; }
+        .project-overlay h3 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 0.5rem; transform: translateY(15px); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); color: white; font-family: 'Space Grotesk', sans-serif; }
+        .project-overlay p { font-size: 1.1rem; color: rgba(255, 255, 255, 0.95); transform: translateY(15px); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .project-card:hover .project-overlay h3, .project-card:hover .project-overlay p { transform: translateY(0); }
+
+        /* --- MORE SECTION --- */
+        .more-section { padding: 4rem 0 8rem 0; }
+
+        /* --- AI SECTION --- */
+        .ai-section { padding: 4rem 0; }
+        .ai-card { background: white; padding: 3rem; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 30px rgba(0,0,0,0.02); max-width: 800px; margin: 0 auto;}
+        #ai-input { width: 100%; padding: 1.2rem; border: 1px solid var(--border-color); background: #fafafa; border-radius: 6px; font-family: inherit; font-size: 1rem; margin-bottom: 1.5rem; resize: vertical; transition: all 0.3s; }
+        #ai-input:focus { outline: none; background: white; border-color: var(--ai-accent); }
+        .ai-btn { background: var(--text-main); color: white; border: none; padding: 1rem 2rem; font-size: 0.95rem; font-weight: 600; border-radius: 6px; cursor: pointer; transition: opacity 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .ai-btn:hover { opacity: 0.8; }
+        .ai-btn:disabled { background: #ccc; cursor: not-allowed; }
+        .hidden { display: none !important; }
+        #ai-loading { margin-top: 1.5rem; font-style: italic; color: var(--text-light); display: flex; align-items: center; gap: 0.5rem; }
+        .spinner { width: 18px; height: 18px; border: 2px solid rgba(0,0,0,0.1); border-radius: 50%; border-top-color: var(--text-main); animation: spin 1s ease-in-out infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #ai-output { margin-top: 2rem; padding: 2rem; background: #fafafa; border-left: 2px solid var(--text-main); font-size: 1rem; line-height: 1.8; color: #333; }
+
+        /* --- FOOTER --- */
+        footer { padding: 6rem 0; text-align: center; border-top: 1px solid var(--border-color); }
+        .contact-title { font-size: 2.2rem; letter-spacing: -1px; margin-bottom: 1.5rem; font-weight: 700; color: var(--text-main); font-family: 'Space Grotesk', sans-serif;}
+        .footer-email { font-size: 1.5rem; color: var(--text-light); text-decoration: none; font-weight: 300; display: block; margin-bottom: 2rem; }
+        .footer-email:hover { opacity: 0.6; }
+        .copyright { margin-top: 4rem; font-size: 0.85rem; color: var(--text-light); }
+        .social-icons { display: flex; gap: 1rem; justify-content: center;}
+        .social-icons a { color: var(--text-main); transition: opacity 0.2s; display: inline-block; }
+        .social-icons a:hover { opacity: 0.6; }
+
+        /* Responsive adjustments */
+        @media (max-width: 1100px) {
+            .project-grid { grid-template-columns: repeat(2, 1fr); }
+            .project-grid-info { grid-template-columns: 1fr; gap: 2rem; }
+            .project-hero-img { height: 50vh; }
+        }
+
+        @media (max-width: 900px) {
+            .traits-section { grid-template-columns: 1fr; }
+            .resume-details { grid-template-columns: 1fr; gap: 2rem; }
+            .hero-section h1 { font-size: 3.5rem; }
+            .nav-links { display: none; }
+            .timeline::after { left: 24px; }
+            .timeline::before, .timeline-bottom-cap { left: 24px; }
+            .timeline-item, .timeline-item:nth-child(even) { flex-direction: column; padding-left: 65px; align-items: flex-start;}
+            .timeline-dot { left: 24px; top: 0; }
+            .timeline-date-container { width: 100%; padding: 0 0 1rem 0 !important; text-align: left !important;}
+            .timeline-card { width: 100%; padding: 1.5rem; }
+            .timeline-card::before, .timeline-card::after { display: none; }
+            .project-grid { grid-template-columns: 1fr; }
+            .project-image-half { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY NAV BAR -->
+    <nav class="navbar">
+        <div class="logo" onclick="navigate('home')">MS.</div>
+        <ul class="nav-links">
+            <li><a onclick="navigate('home')" id="nav-home" class="active-link">Home</a></li>
+            <li><a onclick="navigate('about')" id="nav-about">About</a></li>
+            <li><a onclick="navigate('projects')" id="nav-projects">Projects</a></li>
+            <li><a onclick="navigate('more')" id="nav-more">More</a></li>
+            <li><a onclick="navigate('ai')" id="nav-ai" class="ai-nav-link">AI Assistant ✨</a></li>
+        </ul>
+    </nav>
+
+    <!-- ========================================== -->
+    <!-- MAIN CONTENT (SPA Pages) -->
+    <!-- ========================================== -->
+    <main class="container">
+
+        <!-- 1. HOME PAGE -->
+        <div id="page-home" class="page-view active">
+            <header class="hero-section">
+                <h1>Hello!</h1>
+                <p class="hero-subtitle">
+                    I'm Miguel, a Mechanical Engineering student focusing on additive manufacturing, robotics, and hardware modification. Currently studying at Kennesaw State University.
+                </p>
+            </header>
+
+            <section class="traits-section" style="padding-top: 0;">
+                <div class="trait-box">
+                    <h3>Strengths</h3>
+                    <ul>
+                        <li>Addicted to 3D printing and hardware iteration.</li>
+                        <li>Fluent in Orca Slicer, custom speed-tuning, and mechanical assembly.</li>
+                        <li>Capable of tuning printer input-shaping parameters entirely by ear.</li>
+                    </ul>
+                </div>
+                <div class="trait-box">
+                    <h3>Weaknesses</h3>
+                    <ul>
+                        <li>Addicted to 3D printing and hardware iteration.</li>
+                        <li>Incapable of leaving any piece of hardware stock.</li>
+                        <li>Will easily spend 6 hours CAD-modeling a bracket that could be zip-tied.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="timeline-section">
+                <h2 class="section-title">Experience & Projects</h2>
+                <div class="timeline">
+                    <!-- Top terminal dot for timeline -->
+                    <div class="timeline-bottom-cap" style="bottom: auto; top: -8px;"></div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date-container">
+                            <div class="timeline-date">Spring 2026</div>
+                            <div class="timeline-location">Kennesaw State University</div>
+                        </div>
+                        <div class="timeline-dot">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 9V3M12 21V15M9 12H3M21 12H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                        </div>
+                        <div class="timeline-card">
+                            <h3>6-Axis Robotic Arm</h3>
+                            <div class="company">Project • Lead Designer</div>
+                            <p>Designed and programmed a fully functional 6-axis robotic arm from scratch with custom kinematics and wireless integration.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date-container">
+                            <div class="timeline-date">Jun 2025 - Present</div>
+                            <div class="timeline-location">Atlanta, GA</div>
+                        </div>
+                        <div class="timeline-dot">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 16.5C21 16.88 20.79 17.21 20.47 17.38L12.5 21.82C12.19 21.99 11.81 21.99 11.5 21.82L3.53 17.38C3.21 17.21 3 16.88 3 16.5V7.5C3 7.12 3.21 6.79 3.53 6.62L11.5 2.18C11.81 2.01 12.19 2.01 12.5 2.18L20.47 6.62C20.79 6.79 21 7.12 21 7.5V16.5Z" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                        </div>
+                        <div class="timeline-card">
+                            <h3>Creanza 3D</h3>
+                            <div class="company">Job • Founder & Lead Designer</div>
+                            <p>Directing the design and production of custom 3D-printed promotional products utilizing Bambu Lab hardware and advanced slicing configurations.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date-container">
+                            <div class="timeline-date">Fall 2025</div>
+                            <div class="timeline-location">Kennesaw State University</div>
+                        </div>
+                        <div class="timeline-dot">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 22L4 2M4 4L20 9L4 14" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/></svg>
+                        </div>
+                        <div class="timeline-card">
+                            <h3>3-Wheel Dragster</h3>
+                            <div class="company">Project • Mechanical Engineer</div>
+                            <p>Engineered a high-speed 3-wheel dragster emphasizing weight reduction, structural integrity, and iterative stress testing.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date-container">
+                            <div class="timeline-date">Spring 2025</div>
+                            <div class="timeline-location">Kennesaw State University</div>
+                        </div>
+                        <div class="timeline-dot">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" fill="none"/><path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" fill="none"/><path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                        </div>
+                        <div class="timeline-card">
+                            <h3>Advanced CAD Modeling</h3>
+                            <div class="company">Project • CSWP / CSWA</div>
+                            <p>Modeled complex mechanical assemblies and ran preliminary FEA simulations to validate design choices prior to additive manufacturing.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date-container">
+                            <div class="timeline-date">Sep 2024 - Nov 2024</div>
+                            <div class="timeline-location">Northview High School</div>
+                        </div>
+                        <div class="timeline-dot">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" fill="none"/><path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" fill="none"/><path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                        </div>
+                        <div class="timeline-card">
+                            <h3>Automated Lift Bridge</h3>
+                            <div class="company">Project • Fabrication & Systems Lead</div>
+                            <p>Led the structural assembly and mechatronic automation of a functional scale-model vertical lift bridge using a Pegasus controller and pneumatics.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date-container">
+                            <div class="timeline-date">May 2024 - Jul 2024</div>
+                            <div class="timeline-location">Johns Creek, GA</div>
+                        </div>
+                        <div class="timeline-dot">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C12 22 20 18 20 12C20 6 12 2 12 2C12 2 4 6 4 12C4 18 12 22 12 22Z" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 22V12" stroke="currentColor" stroke-width="2"/></svg>
+                        </div>
+                        <div class="timeline-card">
+                            <h3>MF Landscaping</h3>
+                            <div class="company">Job • Owner & Operator</div>
+                            <p>Managed small business logistics, routing, client acquisitions, and equipment mechanical upkeep.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Bottom terminal dot for timeline -->
+                    <div class="timeline-bottom-cap"></div>
+                </div>
+            </section>
+
+            <section class="projects-section" style="padding-top: 0;">
+                <h2 class="section-title">Featured Project</h2>
+                <div class="project-grid" style="grid-template-columns: 1fr; max-width: 900px; margin: 0 auto;">
+                    
+                    <div class="project-card" style="aspect-ratio: 16/9;" onclick="navigate('project-drawbridge')">
+                        <img src="https://placehold.co/900x500/f39c12/ffffff?text=Automated+Drawbridge+Project" alt="Automated Vertical Lift Bridge">
+                        <div class="project-overlay">
+                            <h3>Automated Vertical Lift Bridge</h3>
+                            <p>Mechatronic automation & structural assembly.</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a onclick="navigate('projects')" style="cursor: pointer; color: var(--timeline-blue); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--timeline-blue); padding-bottom: 2px;">View all Personal Projects &rarr;</a>
+                </div>
+            </section>
+        </div>
+
+        <!-- 2. ABOUT PAGE -->
+        <div id="page-about" class="page-view">
+            <div class="page-header">
+                <h1>About Me</h1>
+                <p class="hero-subtitle">Mechanical engineering student, maker, and founder.</p>
+            </div>
+
+            <section class="resume-details" style="padding-top: 4rem;">
+                <div class="resume-col">
+                    <h3>Education</h3>
+                </div>
+                <div class="resume-col">
+                    <div class="resume-item">
+                        <h4>Kennesaw State University</h4>
+                        <span>B.S. Mechanical Engineering • Exp. 2029</span>
+                        <p>Focus on Additive Manufacturing, Robotics, and Systems Integration.</p>
+                    </div>
+                </div>
+
+                <div class="resume-col" style="margin-top: 2rem;">
+                    <h3>Certifications</h3>
+                </div>
+                <div class="resume-col" style="margin-top: 2rem;">
+                    <div class="resume-item">
+                        <h4>Dassault Systèmes</h4>
+                        <span>CSWP & CSWA Certified</span>
+                        <p>Advanced proficiency in parametric modeling, large assemblies, and preliminary FEA testing.</p>
+                    </div>
+                </div>
+
+                <div class="resume-col" style="margin-top: 2rem;">
+                    <h3>Tools & Software</h3>
+                </div>
+                <div class="resume-col" style="margin-top: 2rem;">
+                    <div class="resume-item">
+                        <p>SolidWorks, Orca Slicer, Klipper Firmware, Arduino IDE, MATLAB, Bambu Studio.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="contact-section" style="padding: 4rem 0 8rem 0; border-top: 1px solid var(--border-color); margin-top: 2rem;">
+                <h2 style="font-size: 2.2rem; letter-spacing: -1px; margin-bottom: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--text-main);">Contact - Let's talk!</h2>
+                <a href="mailto:miguelsierra0724@gmail.com" style="font-size: 1.5rem; color: var(--text-light); text-decoration: none; display: block; margin-bottom: 2rem; font-weight: 300;">miguelsierra0724@gmail.com</a>
+                <div class="social-icons" style="display: flex; gap: 1rem;">
+                    <a href="https://www.linkedin.com/in/miguels1" target="_blank" style="color: var(--text-main); transition: opacity 0.2s; display: inline-block;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                </div>
+            </section>
+        </div>
+
+        <!-- 3. PROJECTS PAGE (THE GRID) -->
+        <div id="page-projects" class="page-view">
+            <div class="page-header">
+                <h1>Personal Projects</h1>
+                <p class="hero-subtitle">Engineering theory applied to physical reality.</p>
+            </div>
+
+            <section class="projects-section">
+                <div class="project-grid">
+
+                    <div class="project-card" style="aspect-ratio: 4/3;" onclick="navigate('project-drawbridge')">
+                        <img src="https://placehold.co/600x450/f39c12/ffffff?text=Automated+Drawbridge" alt="Automated Vertical Lift Bridge">
+                        <div class="project-overlay">
+                            <h3>Automated Lift Bridge</h3>
+                            <p>Mechatronics & control systems integration.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card" style="aspect-ratio: 4/3;" onclick="navigate('project-robotic-arm')">
+                        <img src="https://placehold.co/600x450/1a2a6c/ffffff?text=Robotic+Arm+CAD" alt="6-Axis Robotic Arm">
+                        <div class="project-overlay">
+                            <h3>6-Axis Robotic Arm</h3>
+                            <p>Custom kinematics & wireless integration</p>
+                        </div>
+                    </div>
+
+                    <div class="project-card" style="aspect-ratio: 4/3;" onclick="navigate('project-dragster')">
+                        <img src="https://placehold.co/600x450/3498db/ffffff?text=Dragster+CAD+Model" alt="CAD">
+                        <div class="project-overlay">
+                            <h3>3-Wheel Dragster</h3>
+                            <p>Iterative design & stress testing.</p>
+                        </div>
+                    </div>
+
+                    <div class="project-card" style="aspect-ratio: 4/3;" onclick="navigate('project-cad')">
+                        <img src="https://placehold.co/600x450/4b6cb7/ffffff?text=SolidWorks+Models" alt="SolidWorks">
+                        <div class="project-overlay">
+                            <h3>Advanced CAD Modeling</h3>
+                            <p>FEA simulations & complex mechanical assemblies.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+
+        <!-- 4. MORE PAGE (THE GRID) -->
+        <div id="page-more" class="page-view">
+            <div class="page-header">
+                <h1>More Things</h1>
+                <p class="hero-subtitle">Hobbies, modifications, and hardware tinkering.</p>
+            </div>
+
+            <section class="more-section" style="padding-top: 0;">
+                <div class="project-grid">
+                    
+                    <div class="project-card" style="aspect-ratio: 4/3;" onclick="navigate('more-voron')">
+                        <img src="https://placehold.co/600x450/e67e22/ffffff?text=Voron+3D+Printer" alt="Custom Voron 3D Printer">
+                        <div class="project-overlay">
+                            <h3>Custom Voron 3D Printer</h3>
+                            <p>Optimizing print acceleration up to 10k mm/s² using Klipper.</p>
+                        </div>
+                    </div>
+
+                    <div class="project-card" style="aspect-ratio: 4/3;" onclick="navigate('more-xbox')">
+                        <img src="https://placehold.co/600x450/27ae60/ffffff?text=Xbox+Controller+Mod" alt="Xbox Controller Modification">
+                        <div class="project-overlay">
+                            <h3>Xbox Controller Modification</h3>
+                            <p>Custom back-buttons, shell routing, and soldering.</p>
+                        </div>
+                    </div>
+
+                    <div class="project-card" style="aspect-ratio: 4/3;" onclick="navigate('more-fatigue')">
+                        <img src="https://placehold.co/600x450/8e44ad/ffffff?text=Material+Fatigue" alt="Material Fatigue Studies">
+                        <div class="project-overlay">
+                            <h3>Material Fatigue Studies</h3>
+                            <p>Viscoelastic properties of recycled AM filaments.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+
+        <!-- 5. AI ASSISTANT PAGE -->
+        <div id="page-ai" class="page-view">
+            <div class="page-header">
+                <h1>Let's Connect</h1>
+                <p class="hero-subtitle">Test out my virtual DFM consultant or reach out directly.</p>
+            </div>
+
+            <section class="ai-section" style="padding-top: 0;">
+                <div class="ai-card">
+                    <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--timeline-blue);">Virtual Engineering Assistant ✨</h2>
+                    <p style="font-size: 1.1rem; color: var(--text-light); margin-bottom: 2.5rem; max-width: 750px;">
+                        Describe an engineering challenge you are facing. My customized AI agent will provide an initial Design-for-Manufacturing (DFM) assessment and outline exactly how my background can help you solve it.
+                    </p>
+                    <textarea id="ai-input" rows="4" placeholder="e.g., I need to create a custom, lightweight structural casing for a robotic actuator. What material and printing parameters do you recommend?"></textarea>
+                    
+                    <button id="ai-btn" class="ai-btn">
+                        Analyze Project Fit ✨
+                    </button>
+                    
+                    <div id="ai-loading" class="hidden">
+                        <div class="spinner"></div>
+                        Formulating technical fit analysis...
+                    </div>
+                    
+                    <div id="ai-output" class="hidden"></div>
+                </div>
+            </section>
+        </div>
+
+
+        <!-- ============================================================================== -->
+        <!-- ============================================================================== -->
+        <!-- INDIVIDUAL PROJECT DETAIL PAGES                                                -->
+        <!-- ============================================================================== -->
+        <!-- ============================================================================== -->
+
+        <!-- 📁 DRAWBRIDGE PROJECT PAGE 📁 -->
+        <div id="page-project-drawbridge" class="page-view">
+            <a onclick="navigate('projects')" class="back-link">&larr; Back to Personal Projects</a>
+            
+            <img src="https://placehold.co/1600x900/f39c12/ffffff?text=Drawbridge+Assembly+Hero" class="project-hero-img" alt="Drawbridge Assembly">
+            
+            <div class="project-detail-wrapper">
+                
+                <h1 class="project-header-title">Automated Vertical Lift Bridge</h1>
+                <p class="project-header-subtitle">Structural engineering, rapid prototyping, and mechatronic automation.</p>
+                
+                <div class="project-grid-info">
+                    
+                    <div class="project-meta-col">                        
+                        <div class="project-meta-item">
+                            <h4>Role</h4>
+                            <p>Fabrication & Electrical Controls Systems</p>
+                        </div>
+                        <div class="project-meta-item">
+                            <h4>Student Team Project</h4>
+                            <p>Team: Maxim Iliev, Miguel Sierra, Neha Vajrala, and Cooper Beadle</p>
+                        </div>
+                        <div class="project-meta-item">
+                            <h4>Timeline</h4>
+                            <p>Sep 2024 - Nov 2024</p>
+                        </div>
+                        <div class="project-meta-item">
+                            <h4>Location</h4>
+                            <p>Northview High School</p>
+                        </div>
+                        <div class="project-meta-item">
+                            <h4>Tools & Tech</h4>
+                            <p>SolidWorks, Pegasus Controllers, Pneumatics, Sensors</p>
+                        </div>
+                    </div>
+
+                    <div class="project-text-content">
+                        <h3>Problem Statement</h3>
+                        <p>High traffic congestion between Louisville and Southern Indiana requires an immediate infrastructure solution that does not disrupt commercial and recreational river navigation. To address this, our company is developing a dual-purpose solution: a regional drawbridge and an adjacent marina.</p>
+                        <p>Our team is tasked with designing and constructing a functional, automated scale model of this drawbridge alongside an integrated boat storage and retrieval system. This project will strictly follow the seven steps of the Engineering Design Process from initial problem identification through iterative prototyping and testing to ensure a viable, efficient, and automated final design.</p>
+                    </div>
+                </div>
+
+                <img src="https://placehold.co/1200x600/34495e/ffffff?text=SolidWorks+Displacement+Analysis" class="project-image-full" alt="SolidWorks FEA Displacement">
+
+                <div class="project-text-block">
+                    <h3>Analysis and Developmental Work</h3>
+                    <h4>The Leaf</h4>
+                    <p>Following the establishment of the project constraints and problem statement, the developmental work commenced with structural analysis of the primary component: the bridge leaf. Utilizing preliminary physical dimensions, the team conducted Finite Element Analysis (FEA) within SolidWorks to simulate displacements and evaluate the viability of various structural configurations under operational loads when using lightweight balsa wood.</p>
+                    <p>The initial design iteration evaluated was a traditional Pratt truss configuration. However, when subjected to a simulated static load of 100 N, the balsa wood model experienced a catastrophic structural failure. A detailed post-failure analysis revealed two critical design flaws. First, the thin balsa truss members experienced no meaningful compressive or tensile forces; this lack of load distribution was attributed to an overly robust attachment method to the road deck, which effectively isolated the forces and prevented them from transferring up into the truss network. Second, the thin balsa road surface itself exhibited poor tensile strength, causing the deck to buckle and bend inward under the applied weight.</p>
+                    <p>To mitigate this deck deflection, the design was modified by integrating bottom balsa bracing directly into the underlying road surface. While this secondary iteration yielded a substantial boost in overall structural integrity, subsequent FEA simulations indicated that the upper truss network still carried virtually no structural load. Recognizing that the balsa trusses were functionally redundant, the team pivoted, removing the upper truss network entirely to minimize weight, manufacturing complexity, and unnecessary material consumption.</p>
+                    <p>The final design shifted to an under-bridge support system, featuring long balsa wood structural members spanning the entire 3 in length of the bridge. This finalized sub-structure consists of three parallel longitudinal balsa members oriented vertically on their strongest edge: two outer glued members and one central member. To achieve the required span without introducing local weak points in the balsa material, the outer supports were engineered with staggered, alternating component lengths. When subjected to the standardized 100 N load simulation, this underlying upright balsa support configuration successfully restricted the maximum displacement to just 0.7869 in at the absolute center of the bridge span, validating the final geometry and meeting all structural performance requirements.</p>
+                    <h4>Support Towers</h4>
+                    <p>With the structural geometry of the balsa wood bridge leaf finalized, the design phase transitioned to the supporting towers. Unlike the lightweight constraints imposed on the bridge leaf, the material parameters for this section allowed for a more robust selection, leading the team to utilize plywood for the main tower structures. The engineering requirements for these plywood towers were strictly defined: they had to support the static and dynamic weight of the bridge leaf, incorporate an integrated physical lip to establish the lowest resting point of the bridge deck, include a mechanical method to precisely constrain the distance between the two towers, and remain optimized for rapid, straightforward construction.</p>
+                    <p>To satisfy the requirement for ease of assembly, the team designed an interlocking, modular system inspired by the seamless fit of commercial building blocks, which was perfectly suited for a plywood medium via a dado-style wood joinery method. To establish the bridge's low-point rest position, a protruding plywood shelf was integrated into the tower geometry, providing a rigid, secure surface for the deck to rest upon. Finally, a computational stress analysis was conducted to verify the structural capacity of the plywood towers under heavy loading conditions. The simulation demonstrated that the tower assembly was more than capable of handling operational forces; when subjected to a high-magnitude simulated load of 1000 kg, the exterior plywood walls exhibited a minor outward deflection of only 0.1334 in, confirming the mechanical viability of the final layout.</p>
+                </div>
+
+                <div class="project-image-half">
+                    <img src="https://placehold.co/800x600/e67e22/ffffff?text=Dado-Style+Joinery" alt="Dado Joint Design">
+                    <img src="https://placehold.co/800x600/2ecc71/ffffff?text=Tower+Stress+Analysis" alt="Tower Stress Simulation">
+                </div>
+
+                <div class="project-text-block">
+                    <h4>Cross Bars Support</h4>
+                    <p>Following the development of the supporting towers, the design phase focused on the crossbar assembly, which functions as a multi-purpose railing system. The crossbars were engineered to fulfill two primary structural and mechanical roles simultaneously: they had to securely constrain the lateral distance between the two towers and house the mechanisms required for transmitting lifting power from the counterweight to the bridge leaf. Consequently, the design criteria closely mirrored those of the towers, requiring the components to be simple to construct, support the operational weight of the bridge, and seamlessly facilitate motion transmission between the counterweight and the bridge leaf.</p>
+                    <p>Adhering strictly to these requirements, the team developed a layout featuring slanted plywood members that connect securely at their upper apex and slot directly into matching recesses at the top of the plywood towers. To allow for smooth mechanical actuation, guide holes were integrated into the plywood geometry to house a pulley system, enabling a lifting rope to be routed through them and subsequently anchored to the bridge deck. While formal computational stress analysis was not performed on these specific crossbar components, their structural adequacy was safely assumed. This engineering assumption was justified by the exceptionally high safety margins demonstrated in the tower simulations, combined with the team's use of identical plywood material choices and interlocking joinery techniques across both sub-assemblies.</p>
+                    <h4>Counterweight System</h4>
+                    <p>refine this text while keeping all of the information that is given, refine it in a way such that the text flows well to read after the "Support Towers" header and is professional for a portfolio. keep the format in essay format if possible.</p>
+                    <p>To calculate the necessary internal volume of the reservoir, the team first determined the total estimated mass of the physical bridge leaf assembly. A 30 g safety margin was added to this baseline value to guarantee sufficient lifting potential. Using this target mass, the team calculated the equivalent volume of water required to achieve equilibrium and sized the internal cavity of the counterweight accordingly. Furthermore, the inherent weight of the 3D-printed plastic shell was intentionally factored into the calculations to serve as a secondary structural buffer, mitigating any potential discrepancies between the digital weight estimations and the final fabricated bridge model.</p>
+                    <h4>Linear Rails</h4>
+                    <p>To complement the vertical lifting motion enabled by the counterweight system, the team addressed the need to stabilize the bridge leaf against lateral forces during operation. It was determined that a dedicated mechanism was required to constrain any side-to-side motion, which led to the development of a custom linear slide system. In designing these slides, a primary engineering priority was to ensure that the vertical load of the bridge deck was transferred safely through the bulk structure of the component. To achieve this, integrated mounting pockets were designed into the slides where the bridge could securely rest. This layout forced the structural weight to bear directly downward against the solid plastic geometry, completely eliminating any reliance on the weaker shear strength of chemical adhesives.</p>
+                    <p>The primary performance metric for the guide rails was minimizing operational resistance, meaning the system needed to achieve the lowest friction coefficient possible. During the initial prototyping phase, standard 3D printing methods resulted in internal filament stringing within the slide tracks, which severely hindered smooth movement. To resolve this manufacturing defect and ensure a flawless surface finish, the final components were fabricated using an advanced fused deposition modeling (FDM) workflow utilizing water-soluble, dissolvable support material. This optimization completely eliminated internal stringing, resulting in clean internal channels and a highly efficient, low-friction linear translation interface.</p>
+                    <h4>Automated Traffic Gate</h4>
+                    <p>Following the optimization of the linear guide rails, the final phase of developmental work focused on the automated traffic gate mechanism, which underwent multiple design iterations to ensure smooth mechanical actuation. The initial concept utilized a gravity-assisted configuration where a pneumatic or hydraulic piston pushed the gate into an upright state, relying purely on gravity for the downward return stroke. However, computational motion studies and center-of-mass analyses revealed a severe flaw in this approach: because of the arm's geometric balance, an excessive mass of 3D-printed plastic would be required as a counterweight just to overcome internal friction and lower the arm reliably. To optimize material efficiency and guarantee positive control, the team pivoted to a double-acting gate system, configuring the actuator to actively both push and pull the gate arm through its operational cycle.</p>
+                    <p>Further refinement of this dual-action layout was required when subsequent motion profiles indicated a critical geometric interference. As the gate arm pivoted through its arc of travel, the changing angle of the straight actuator shaft caused it to intersect and bind directly against the bottom edge of the arm. To resolve this interference without compromising structural integrity, clearance slots were integrated into the gate geometry, allowing the shaft to swing freely and unhindered through its full mechanical stroke.</p>
+                    <p>Because the shaft needed to pivot through these clearance slots, it could not simply be threaded directly into a fixed point on the arm. To overcome this fastening challenge, a custom linkage was engineered by cutting a specialized access hole into the bottom of the gate arm. This geometry allowed a secondary locking nut to be threaded onto the actuator shaft internally, effectively sandwiching the gate arm securely between two locking nuts. This robust mechanical connection eliminated backlash and forced the gate arm to precisely mirror the bidirectional displacement of the piston, completing the automated assembly.</p>
+                    <h4>Final Render</h4>
+                </div>
+
+                <div class="project-image-half">
+                    <img src="https://placehold.co/800x600/2c3e50/ffffff?text=Double-Action+Gate+Pneumatics" alt="Pneumatic Gate Mechanism">
+                    <img src="https://placehold.co/800x600/9b59b6/ffffff?text=Photoelectric+Sensor+Wiring" alt="Electrical Diagram">
+                </div>
+
+                <div class="project-text-block">
+                    <h3>Electrical Controls Systems Integration</h3>
+                    <p>With the mechanical sub-assemblies finalized, the engineering focus shifted to the electrical architecture and control systems integration. While the majority of the wiring was straightforward, consisting of routing standard digital inputs and outputs directly to their corresponding terminals on the controller, integrating the photoelectric sensor introduced a unique hardware compatibility challenge that required an engineered solution.</p>
+                    <p>The sensor selected for the system was a PNP-type photoelectric sensor, which functions by sourcing the input supply voltage directly to the output signal line upon target detection. This behavior stands in stark contrast to an NPN-type sensor, which acts as a ground sink for the output signal line when triggered. The core integration issue arose from the inherent design architecture of the controller interface, which was engineered exclusively to monitor mechanical inputs such as physical buttons or standard relay contacts. The controller detects an active input by supplying a nominal 5 V bias across one terminal channel; when a mechanical switch closes and draws that current directly to the ground channel, the resulting voltage drop signals to the controller that the input state is active.</p>
+                    <p>Because the PNP sensor outputs a high-voltage signal rather than pulling a circuit to ground, it could not interface directly with the controller's existing input logic. To bridge this architectural gap, the team engineered an isolation circuit by wiring the PNP sensor’s output directly into the coil of an external electromechanical relay. When the sensor detects a target, its output energizes the relay coil, closing a set of dry mechanical contacts that securely completes the circuit between the controller's 5 V and ground channels, successfully mimicking a physical button press.</p>
+                    <p>During the post-design review, two viable engineering alternatives were identified that could have streamlined this electrical interface without requiring an auxiliary relay. First, if the sensor had been rated for a much lower operating voltage and possessed a negligible current draw, it theoretically could have been powered directly by the controller's internal 5 V bias loop. Second, substituting the component with an NPN-type sensor would have inherently matched the controller's logic; the NPN transistor would have acted as a direct solid-state sink to ground for the controller’s 5 V channel, completing the circuit automatically upon detection. The accompanying schematic illustrates the finalized, relay-isolated wiring diagram utilized for the photoelectric sensor, while the remaining periphery devices were directly terminated at the main controller board.</p>
+                </div>
+
+                <img src="https://placehold.co/1200x600/16a085/ffffff?text=Final+Assembly+and+Testing" class="project-image-full" alt="Bridge Assembly">
+
+                <div class="project-text-block">
+                    <h3>Control Software and Program Logic</h3>
+                    <p>Following the completion of the electrical architecture, the team developed the control software to orchestrate the automation of the bridge and traffic safety systems. A primary software requirement was that the system architecture had to be strictly event-driven to ensure immediate responsiveness to real-world triggers. Although the native documentation for the controller's programming language was limited, technical exploration revealed a specialized interrupt command known as the GUARD function.</p>
+                    <p>The software architecture leverages the GUARD command to monitor the input signals from the photoelectric sensors continuously. In this environment, the command is configured to handle execution via subroutines rather than standard jumping labels. While a standard label acts as a basic GOTO command—permanently redirecting the program pointer—a subroutine functions analogously to a modern programming method: it pauses the primary execution thread, processes the specific function, and subsequently returns to the exact point of interruption once the routine terminates.</p>
+                    <p>When a photoelectric sensor detects a vessel, the active GUARD statement instantly halts all pre-programmed robotic motion and initiates a sequential safety and lifting subroutine. The program executes the operational cycle through a strict chronological loop to ensure public safety and efficient harbor management:</p>
+                    <ol>
+                        <li><strong>Traffic Alert Phase:</strong> The control system immediately alters the state of the traffic signaling lights from green to an alert color configuration.</li>
+                        <li><strong>Pedestrian Clear Delay:</strong> The software initiates a mandatory ten-second delay to allow active roadway traffic to clear the span.</li>
+                        <li><strong>Gate and Alarm Actuation:</strong> The controller lowers the automated traffic gates while simultaneously engaging an audible warning buzzer.</li>
+                        <li><strong>Leaf Actuation:</strong> The bridge leaf is driven to its maximum vertical displacement, and the power converter is energized.</li>
+                        <li><strong>Vessel Transit Monitoring:</strong> The system holds the open-span state, pausing further execution until a secondary photoelectric sensor on the opposite side of the channel registers that the vessel has safely cleared the maritime boundary.</li>
+                        <li><strong>System Reset Loop:</strong> Once the exit sensor clears, the controller reverses the cycle by lowering the bridge leaf, raising the traffic gates, deactivating the audible warning buzzer, and resetting the signaling lights back to green, returning the program to its baseline monitoring state.</li>
+                    </ol>
+                </div>
+
+                <div class="project-text-block">
+                    <h3>Engineering Drawings</h3>
+                    <p>To transition the project from digital concepts to physical fabrication, the team generated a set of detailed technical drawings. These schematics were created specifically to guide the woodworking and machining of the plywood components, ensuring that all dimensioned cuts, and interlocking joints were executed accurately during production. A selection of the primary fabrication drawings used during the woodworking process is presented below, establishing the geometric foundation for the physical assembly detailed in the subsequent construction section.</p>
+                </div>
+            
+                <div class="project-text-block">
+                    <h3>Fabrication of Prototype</h3>
+                    <h4>Material Acquisition</h4>
+                    <p>To bridge the gap between digital design and physical production, a comprehensive Bill of Materials (BOM) was compiled. This structured inventory itemizes every sub-assembly, individual component, and commercial part required to construct the automated drawbridge system. By maintaining strict hierarchical numbering, the BOM ensures seamless tracking during procurement and fabrication.</p>
+                    <p>All materials required for the execution of this project, including plywood, Balsa wood, structural binding agents, commercial pneumatics, and electrical components, were all provided and provisioned by our proffessor, Mr. Platt. With the procurement phase finalized, the inventory fully accounted for, and the fabrication drawings printed, the team systematically transitioned into the physical construction and assembly phase.</p>
+                </div>
+                <div class="project-table-wrapper">
+                    <table class="project-table">
+                        <thead>
+                            <tr>
+                                <th>Item No.</th>
+                                <th>Part Number</th>
+                                <th>Qty.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>1</strong></td><td>RoadAsm</td><td>1</td></tr>
+                            <tr><td>1.1</td><td>Road</td><td>1</td></tr>
+                            <tr><td>1.2</td><td>SquareRod</td><td>1</td></tr>
+                            <tr><td>1.3</td><td>Long RoadBraceLong</td><td>2</td></tr>
+                            <tr><td>1.3.1</td><td>Rod</td><td>12</td></tr>
+                            <tr><td>1.4</td><td>Long RoadBraceShort</td><td>2</td></tr>
+                            <tr><td>1.4.1</td><td>Rod</td><td>12</td></tr>
+                            <tr><td><strong>2</strong></td><td>TowerAsm</td><td>2</td></tr>
+                            <tr><td>2.1</td><td>Base</td><td>1</td></tr>
+                            <tr><td>2.2</td><td>Side Wall</td><td>2</td></tr>
+                            <tr><td>2.3</td><td>Base</td><td>1</td></tr>
+                            <tr><td><strong>3</strong></td><td>RailAsm</td><td>4</td></tr>
+                            <tr><td>3.1</td><td>ChannelRail</td><td>1</td></tr>
+                            <tr><td>3.2</td><td>ConnectorPiece</td><td>1</td></tr>
+                            <tr><td><strong>4</strong></td><td>Vertical Truss</td><td>6</td></tr>
+                            <tr><td>4.1</td><td>Rod</td><td>3</td></tr>
+                            <tr><td><strong>5</strong></td><td>Horizontal Truss</td><td>3</td></tr>
+                            <tr><td>5.1</td><td>Rod</td><td>3</td></tr>
+                            <tr><td><strong>6</strong></td><td>Slant Wood</td><td>2</td></tr>
+                            <tr><td><strong>7</strong></td><td>Slant Wood</td><td>2</td></tr>
+                            <tr><td><strong>8</strong></td><td>NormalPully</td><td>4</td></tr>
+                            <tr><td><strong>9</strong></td><td>WidthHolder</td><td>1</td></tr>
+                            <tr><td><strong>10</strong></td><td>BridgeToBridge</td><td>1</td></tr>
+                            <tr><td><strong>11</strong></td><td>SlantToBottom</td><td>1</td></tr>
+                            <tr><td><strong>12</strong></td><td>FloorRoad</td><td>1</td></tr>
+                            <tr><td><strong>13</strong></td><td>GateAsm</td><td>1</td></tr>
+                            <tr><td>13.1</td><td>NCJ2B16-200R</td><td>1</td></tr>
+                            <tr><td>13.1.1</td><td>16R</td><td>1</td></tr>
+                            <tr><td>13.1.2</td><td>16</td><td>1</td></tr>
+                            <tr><td>13.1.3</td><td>16R</td><td>1</td></tr>
+                            <tr><td>13.1.4</td><td>16B</td><td>1</td></tr>
+                            <tr><td>13.2</td><td>Body</td><td>1</td></tr>
+                            <tr><td>13.3</td><td>Gate</td><td>1</td></tr>
+                            <tr><td><strong>14</strong></td><td>Counter Weight</td><td>1</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+            
+                <div class="project-text-block">
+                    <h4>Manufacturing of Stock Materials</h4>
+                    <p>The manufacturing strategy for the automated drawbridge system was structured around a modular design plan, segmenting the assembly into three primary physical categories: the supporting towers, the cross bars, and the movable bridge leaf. Each major assembly was broken down into smaller, precise components designed to interlock mechanically, ensuring high geometric repeatability and structural alignment. Fabrication relied on a dual-medium manufacturing workflow, leveraging fused deposition modeling (FDM) 3D printing for complex geometries and mechanical components, alongside traditional woodworking for the primary load-bearing plywood and balsa structures.</p>
+                    <p>The initial phase of construction focused on the production of the FDM 3D-printed sub-assemblies, which encompassed the linear guide railings, automated traffic barricades, maritime models, and the counterweight fluid system. The printed guide railings were engineered to serve a multi-functional purpose, acting as the structural interface between the bridge leaf and the towers while constraining lateral displacement to stabilize the leaf during vertical translation. For traffic management, the team fabricated automated safety barricades driven by a double-acting pneumatic cylinder; these gates were programmed to close immediately upon leaf actuation and remain locked until the bridge returned to its baseline, secured position.</p>
+                    <p>To validate the automated marina storage and retrieval system, four distinct boats were 3D-printed with progressively scaled dimensions. While the single smallest vessel was designated to navigate the active river channel beneath the lifted leaf, the remaining three larger vessels were utilized to test and trigger the marina's automated safety sensors. The corresponding boat storage unit was printed as a single rectangular extrusion featuring four progressively larger, nested slots tailored to match the unique profiles of each vessel. Additionally, the mechanical lifting mechanism required the fabrication of three specialized hangers mounted directly to the bridge leaf to anchor the rigging lines. These lines routed to a hollow, 3D-printed counterweight enclosure designed to act as an adjustable water ballast reservoir, providing the exact mass offset necessary to achieve smooth, bidirectional lift.</p>
+                    <p>The second phase involved the physical assembly of the primary support towers from raw plywood stock. Rather than relying on automated machinery, the team utilized a vertical band saw to carefully cut out the custom tower profiles. Each tower was comprised of four primary interlocking components: a base plate, twin vertical side walls, and a top platform. The bottom section was engineered to act as a physical travel limit for the linear slide mechanisms, providing structural stabilization during vertical movement. The vertical side walls provided rigid mounting faces for the printed guide rails, signaling lights, and photoelectric sensors, while the top platform served as the foundational anchor for the overhead crossbar beams. To maximize assembly speed and structural alignment, every plywood component featured interlocking finger joints, which were coated with high-strength wood glue and clamped to form a rigid, monolithic tower structure.</p>
+                    <p>Once the towers were secured, the team fabricated the cross bars, which consisted of four primary plywood beams. These angled beams were similarly shaped using the vertical band saw and sanded smoothly to ensure mechanical connectivity at the joints. The structural members extended upward at a predetermined angle from the top platform of each tower, converging at a precise centerline apex where they mated with the corresponding beams from the opposite side. Joining these angled members created a stable, high-clearance overhead framework that securely bridged the channel gap and distributed operational loads evenly.</p>
+                    <p>The final construction phase centered on fabricating the movable bridge leaf using lightweight balsa wood, incorporating critical design modifications derived from earlier finite element analysis. Because computational stress tests proved a standard Pratt truss configuration mathematically insufficient, the team implemented an under-bridge reinforcing layout. The sub-deck framework was built by laminating twelve thin balsa wood sticks together for each longitudinal support member, vastly increasing bending stiffness and resilience. These laminated beams were bonded beneath the balsa road deck using structural adhesive and linked directly to the tower slide blocks. To maximize structural coverage and distribute dynamic loads evenly across the span, smaller balsa members were cut and glued between the main longitudinals in geometric, triangular truss formations, completing a highly rigid, lightweight leaf assembly.</p>
+                </div>
+
+                <div class="project-text-block">
+                    <h4>Pneumatic and Fluid Delivery Systems Integration</h4>
+                    <p>Following the fabrication of the structural components, the team engineered the pneumatic control network to actuate both the traffic safety gates and the fluid-driven counterweight system. The architecture utilized three electronic solenoids to manage the distribution of pressurized air: two units were dedicated to controlling the pneumatic cylinders for the traffic gates, while the third was assigned to regulating the bridge lift sequence.</p>
+                    <p>To deliver water to the 3D-printed counterweight reservoir, the team designed a custom positive-pressure fluid transfer system. This setup featured a sealed container integrated with a dual-line hose configuration. The primary line served as a controlled air inlet regulated by the bridge-lift solenoid; introducing pressurized air into this sealed headspace generated an internal positive pressure zone. A secondary output tube was positioned to extend directly to the absolute bottom of the container, forcing the displacement of the water upward through the line as the internal pressure accumulated. This mechanical approach mirrors the fluid dynamics found in commercial spray paint canisters, which rely on internal pressure differential to expel a payload. However, by substituting a fixed propellant with an actively regulated external air source, the team was able to precisely control the timing, volume, and velocity of the water pumped into the counterweight system, ensuring a reliable and repeatable mechanical lift cycle.</p>
+                </div>
+
+                <div class="project-text-block">
+                    <h4>Final Prototype Assembly</h4>
+                    <p>With the structural fabrication, control software, and pneumatic networks fully developed, all individual sub-components were systematically compiled and secured to complete the functional bridge prototype exactly as designed in the CAD environment. The balsa wood bridge leaf, plywood support towers, 3D-printed sub-assemblies, and electrical periphery were combined into a single, cohesive unit. This completed the physical build phase, resulting in an integrated scale prototype ready for operational testing and evaluation.</p>
+                </div>
+
+                <div class="project-text-block">
+                    <h3>System Testing and Validation</h3>
+                    <p>Following the final system integration, the prototype underwent an evaluation phase conducted over a single day to validate its mechanical, electrical, and software sub-systems. The automated sequence proceeded smoothly with only one minor mechanical interference identified. During initial cycles, the fluid delivery tubing connected to the counterweight sagged into the active shipping channel, obstructing the path of the oncoming vessels. To resolve this without altering the balance or orientation of the counterweight reservoir, the team secured the loose tubing directly to the overhead plywood support beams using a rubber band. This minor adjustment cleared the clearance envelope, resulting in a series of completely successful validation trials.</p>
+                    <p>The testing protocol was structured into three distinct procedural phases to evaluate the system's automation and handling capabilities under varied operational conditions:</p>
+                    <ol>
+                        <li><strong>Automated Vessel Deployment:</strong> The evaluation began with the Pegasus robotic arm executing its pick-and-place routing. The arm successfully extracted a vessel from the 3D-printed nesting storage and deposited it cleanly onto a conveyor belt, which served as the simulated river channel.</li>
+                        <li><strong>Channel Navigation and Bridge Interaction:</strong> The system's response was dictated by the physical profile of the vessel in transit. The smallest of the four 3D-printed boats successfully navigated beneath the bridge leaf at its baseline position without requiring a clearance adjustment. However, as each of the three larger vessels approached the span, the photoelectric sensors successfully registered their presence and interrupted the main program thread to trigger the automated safety and lifting sequence. The controller instantly turned the traffic signaling lights red, actuated the pneumatic cylinders to close the safety barriers, engaged the audible warning alarm, and pumped fluid into the counterweight to lift the balsa leaf.</li>
+                        <li><strong>System Reset and Cycle Consistency:</strong> Once the vessel cleared the secondary exit sensor on the opposite side of the channel, the program executed its reset loop. The bridge leaf lowered smoothly back to its low-point rest position, the audible alarm ceased, the pneumatic gates reopened, and the signaling lights returned to green to permit vehicular traffic. This complete sequence was repeated sequentially for all three larger boats, confirming that the event-driven software and mechanical linkages performed reliably and consistently under continuous operation.</li>
+                    </ol>
+                </div>
+
+                <div class="project-text-block">
+                    <h3>Continuous Improvement Analysis: Challenges and Lessons Learned</h3>
+                    <p>Throughout the fabrication and testing phases of the prototype, the team navigated several technical challenges that yielded important engineering insights and underscored the importance of manufacturing optimization. These obstacles primarily centered around mechanical machining tolerances, project workflow logistics, and additive manufacturing workflows.</p>
+                    <p>A primary challenge encountered during the woodworking phase involved geometric precision. Fabricating the interlocking finger and dado joints by hand using only a vertical band saw proved highly difficult and compromised the tight tolerances required for seamless mechanical mating. In hindsight, a more strategic selection of machine tools would have significantly improved both accuracy and production efficiency. Utilizing a specialized scroll saw would have permitted the tight, intricate radii required for the interlocking joints; a miter saw would have ensured precise, repeatable angled cuts for the structural crossbars; and a table saw would have guaranteed perfectly straight, uniform rips along the long under-bridge support longitudinals.</p>
+                    <p>This friction in the fabrication workflow highlighted critical lessons in time management and operational planning. Human error regarding initial tool selection created cascading delays, particularly when manufacturing interface-heavy components like the towers and Cross Bars. This bottleneck emphasized that thorough pre-production planning and matching the correct manufacturing equipment to specific geometric tasks are just as vital to project success as the initial design phase.</p>
+                    <p>Finally, the team encountered significant manufacturing defects during the production of the linear guide rails. The initial 3D-printed prototypes suffered from severe internal filament stringing within the enclosed slide tracks, which dramatically increased surface friction and impeded smooth linear translation. To overcome this, the team optimized the additive manufacturing workflow. The final components were reprinted using Acrylonitrile Butadiene Styrene (ABS) for the core structural geometry, paired with a specialized, water-soluble dissolvable support material to cleanly format the internal channels. This post-processing optimization completely eliminated internal stringing and delivered the low-friction, high-precision sliding interface required for reliable bridge actuation.</p>
+                </div>
+
+        <!-- 📁 ROBOTIC ARM PROJECT PAGE 📁 -->
+        <div id="page-project-robotic-arm" class="page-view">
+            <a onclick="navigate('projects')" class="back-link">&larr; Back to Personal Projects</a>
+            
+            <img src="https://placehold.co/1600x900/1a2a6c/ffffff?text=Robotic+Arm+Hero" class="project-hero-img" alt="Robotic Arm">
+            
+            <div class="project-detail-wrapper">
+                
+                <h1 class="project-header-title">6-Axis Robotic Arm</h1>
+                <p class="project-header-subtitle">Custom kinematics & wireless integration via Arduino Mega.</p>
+                
+                <div class="project-grid-info">
+                    
+                    <div class="project-meta-col">
+                        <div class="project-meta-item">
+                            <h4>Role</h4>
+                            <p>Lead Designer</p>
+                        </div>
+                        <div class="project-meta-item">
+                            <h4>Timeline</h4>
+                            <p>Spring 2026</p>
+                        </div>
+                        <div class="project-meta-item">
+                            <h4>Tools & Tech</h4>
+                            <p>SolidWorks, Arduino, C++, PETG</p>
+                        </div>
+                    </div>
+
+                    <div class="project-text-content">
+                        <p>This project involved designing and programming a fully functional 6-axis robotic arm from scratch. The mechanical structure was modeled in SolidWorks, accounting for motor torque requirements and payload distribution across standard NEMA stepper motors and high-torque servos.</p>
+                    </div>
+                </div>
+
+                <img src="https://placehold.co/1200x600/2c3e50/ffffff?text=Full+Width+Assembly" class="project-image-full" alt="Full Assembly">
+
+                <div class="project-text-block">
+                    <h3>Control Systems & Kinematics</h3>
+                    <p>For the control system, I integrated an Arduino Mega with a USB host shield. This allowed for direct wireless control via an Xbox controller. Custom kinematics were written in C++ to map the controller's analog sticks to smooth, multi-axis movements, overcoming significant challenges with inverse kinematics calculations on an 8-bit microcontroller.</p>
+                </div>
+
+                <div class="project-image-half">
+                    <img src="https://placehold.co/800x600/3498db/ffffff?text=Joint+Detail+1" alt="Joint Detail 1">
+                    <img src="https://placehold.co/800x600/e74c3c/ffffff?text=Wiring+Harness" alt="Wiring Harness">
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- 📁 DRAGSTER PROJECT PAGE 📁 -->
+        <div id="page-project-dragster" class="page-view">
+            <a onclick="navigate('projects')" class="back-link">&larr; Back to Personal Projects</a>
+            
+            <img src="https://placehold.co/1600x900/3498db/ffffff?text=Dragster+Hero" class="project-hero-img" alt="Dragster">
+            
+            <div class="project-detail-wrapper">
+                
+                <h1 class="project-header-title">3-Wheel Dragster</h1>
+                <p class="project-header-subtitle">Iterative design & stress testing for maximum velocity.</p>
+                
+                <div class="project-grid-info">
+                    
+                    <div class="project-meta-col">
+                        <div class="project-meta-item">
+                            <h4>Role</h4>
+                            <p>Mechanical Engineer</p>
+                        </div>
+                        <div class="project-meta-item">
+                            <h4>Timeline</h4>
+                            <p>Fall 2025</p>
+                        </div>
+                        <div class="project-meta-item">
+                            <h4>Tools & Tech</h4>
+                            <p>SolidWorks (FEA), SLA Printing</p>
+                        </div>
+                    </div>
+
+                    <div class="project-text-content">
+                        <p>Engineered a high-speed 3-wheel dragster emphasizing weight reduction and structural integrity. The primary challenge was balancing the aerodynamic profile with the structural rigidity required to withstand launch forces.</p>
+                    </div>
+                </div>
+
+                <img src="https://placehold.co/1200x600/f39c12/ffffff?text=Final+Assembly+Print" class="project-image-full" alt="Assembly">
+
+                <div class="project-text-block">
+                    <h3>Topology Optimization</h3>
+                    <p>Iterative design was key. Over three major revisions, the chassis was hollowed out using topology optimization in SolidWorks, and the wheel bearings were custom-fitted to reduce friction coefficients.</p>
+                </div>
+
+                <div class="project-image-half">
+                    <img src="https://placehold.co/800x600/2c3e50/ffffff?text=V1+Sketch" alt="Sketch">
+                    <img src="https://placehold.co/800x600/111111/ffffff?text=V2+Chassis" alt="Chassis">
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- 📁 ADVANCED CAD PROJECT PAGE 📁 -->
+        <div id="page-project-cad" class="page-view">
+            <a onclick="navigate('projects')" class="back-link">&larr; Back to Personal Projects</a>
+            
+            <img src="https://placehold.co/1600x900/4b6cb7/ffffff?text=CAD+Assembly+Hero" class="project-hero-img" alt="CAD Hero">
+            
+            <div class="project-detail-wrapper">
+                
+                <h1 class="project-header-title">Advanced CAD Modeling</h1>
+                <p class="project-header-subtitle">FEA simulations & complex mechanical assemblies.</p>
+                
+                <div class="project-grid-info">
+                    
+                    <div class="project-meta-col">
+                        <div class="project-meta-item">
+                            <h4>Certifications</h4>
+                            <p>CSWP, CSWA</p>
+                        </div>
+                        <div class="project-meta-item">
+                            <h4>Timeline</h4>
+                            <p>Spring 2025</p>
+                        </div>
+                        <div class="project-meta-item">
+                            <h4>Tools & Tech</h4>
+                            <p>SolidWorks Simulation</p>
+                        </div>
+                    </div>
+
+                    <div class="project-text-content">
+                        <p>As part of my CSWP and CSWA certifications, I modeled complex mechanical assemblies with strict tolerances. This collection showcases parametric modeling techniques where driving dimensions govern the entire assembly.</p>
+                    </div>
+                </div>
+
+                <img src="https://placehold.co/1200x600/8e44ad/ffffff?text=FEA+Simulation+Results" class="project-image-full" alt="FEA Results">
+
+                <div class="project-text-block">
+                    <h3>Finite Element Analysis</h3>
+                    <p>Preliminary FEA (Finite Element Analysis) simulations were run to validate design choices prior to additive manufacturing, ensuring components would not fail under simulated load conditions.</p>
+                </div>
+
+                <div class="project-image-half">
+                    <img src="https://placehold.co/800x600/2980b9/ffffff?text=Parametric+Model+1" alt="Model 1">
+                    <img src="https://placehold.co/800x600/2c3e50/ffffff?text=Parametric+Model+2" alt="Model 2">
+                </div>
+
+            </div>
+        </div>
+
+        
+        <!-- 📁 VORON PRINTER PAGE 📁 -->
+        <div id="page-more-voron" class="page-view">
+            <a onclick="navigate('more')" class="back-link">&larr; Back to More</a>
+            
+            <img src="https://placehold.co/1600x900/e67e22/ffffff?text=Voron+Printer+Hero" class="project-hero-img" alt="Voron Hero">
+            
+            <div class="project-detail-wrapper">
+                <h1 class="project-header-title">Custom Voron 3D Printer</h1>
+                <p class="project-header-subtitle">High-speed coreXY optimizations using Klipper.</p>
+                
+                <div class="project-grid-info">
+                    <div class="project-meta-col">
+                        <div class="project-meta-item">
+                            <h4>Focus</h4>
+                            <p>Mechatronics</p>
+                        </div>
+                        <div class="project-meta-item">
+                            <h4>Tools & Tech</h4>
+                            <p>Klipper, Mainsail, Soldering</p>
+                        </div>
+                    </div>
+                    <div class="project-text-content">
+                        <p>Completely built and re-wired a Voron coreXY printer from scratch. This involved sourcing individual components, crimping custom wiring harnesses, and assembling the kinematic motion system.</p>
+                    </div>
+                </div>
+
+                <img src="https://placehold.co/1200x600/d35400/ffffff?text=CoreXY+Assembly" class="project-image-full" alt="CoreXY Assembly">
+
+                <div class="project-text-block">
+                    <h3>Firmware Tuning</h3>
+                    <p>The software side was heavily optimized. By utilizing Klipper firmware and an ADXL345 accelerometer, I tuned the input-shaping parameters to push print acceleration limits up to 10,000 mm/s² without sacrificing surface quality.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 📁 XBOX CONTROLLER MOD PAGE 📁 -->
+        <div id="page-more-xbox" class="page-view">
+            <a onclick="navigate('more')" class="back-link">&larr; Back to More</a>
+            
+            <img src="https://placehold.co/1600x900/27ae60/ffffff?text=Xbox+Controller+Hero" class="project-hero-img" alt="Xbox Hero">
+            
+            <div class="project-detail-wrapper">
+                <h1 class="project-header-title">Xbox Controller Mod</h1>
+                <p class="project-header-subtitle">Custom back-buttons and shell routing.</p>
+                
+                <div class="project-grid-info">
+                    <div class="project-meta-col">
+                        <div class="project-meta-item">
+                            <h4>Focus</h4>
+                            <p>Micro-Soldering</p>
+                        </div>
+                        <div class="project-meta-item">
+                            <h4>Tools & Tech</h4>
+                            <p>Dremel, Multimeter</p>
+                        </div>
+                    </div>
+                    <div class="project-text-content">
+                        <p>Designed and retrofitted custom back-button mechanisms into standard gamepads. This required precision shell routing with a Dremel to ensure the tactile switches fit flush against the user's fingers.</p>
+                    </div>
+                </div>
+
+                <img src="https://placehold.co/1200x600/2ecc71/ffffff?text=PCB+Soldering+Points" class="project-image-full" alt="PCB Wiring">
+
+                <div class="project-text-block">
+                    <h3>Micro-Soldering</h3>
+                    <p>Internally, fine-pitch soldering was required to map the new tactile switches to the main PCB's traces, allowing for custom input remapping.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 📁 MATERIAL FATIGUE PAGE 📁 -->
+        <div id="page-more-fatigue" class="page-view">
+            <a onclick="navigate('more')" class="back-link">&larr; Back to More</a>
+            
+            <img src="https://placehold.co/1600x900/8e44ad/ffffff?text=Material+Fatigue+Hero" class="project-hero-img" alt="Materials Testing">
+            
+            <div class="project-detail-wrapper">
+                <h1 class="project-header-title">Material Fatigue Studies</h1>
+                <p class="project-header-subtitle">Viscoelastic properties of recycled AM filaments.</p>
+                
+                <div class="project-grid-info">
+                    <div class="project-meta-col">
+                        <div class="project-meta-item">
+                            <h4>Focus</h4>
+                            <p>Materials Science</p>
+                        </div>
+                        <div class="project-meta-item">
+                            <h4>Tools & Tech</h4>
+                            <p>Tensile Testers, Data Logging</p>
+                        </div>
+                    </div>
+                    <div class="project-text-content">
+                        <p>Investigated the viscoelastic properties and shear rates of post-consumer plastics used in recycled additive manufacturing filaments.</p>
+                    </div>
+                </div>
+
+                <img src="https://placehold.co/1200x600/9b59b6/ffffff?text=Tensile+Tester+Data" class="project-image-full" alt="Testing Data">
+
+                <div class="project-text-block">
+                    <h3>Empirical Results</h3>
+                    <p>Conducted tensile tests and layer-adhesion tear-downs to compare the mechanical limits of recycled PETG vs. virgin PETG, documenting the variance in structural integrity after extended heat cycling.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="contact-section">
+        <h2 class="contact-title">Contact — Let's talk!</h2>
+        <a href="mailto:miguelsierra0724@gmail.com" class="contact-email">miguelsierra0724@gmail.com</a>
+        <div class="social-icons">
+            <a href="https://www.linkedin.com/in/miguels1" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+        </div>
+        <p class="copyright">© 2026 Miguel Sierra — Kennesaw State University</p>
+    </footer>
+
+    <!-- JAVASCRIPT CDNs -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 
+
+    <script>
+        // SPA NAVIGATION LOGIC
+        function navigate(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-view').forEach(page => {
+                page.classList.remove('active');
+            });
+            // Show requested page
+            document.getElementById('page-' + pageId).classList.add('active');
+            
+            // Update active link styling
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active-link');
+            });
+            // Only highlight if the nav tab exists for this page
+            let activeNav = document.getElementById('nav-' + pageId);
+            if(activeNav) {
+                activeNav.classList.add('active-link');
+            } else {
+                // If we are deep within a sub-page, keep the parent tab highlighted
+                if(pageId.startsWith('project-')) {
+                    document.getElementById('nav-projects').classList.add('active-link');
+                } else if(pageId.startsWith('more-')) {
+                    document.getElementById('nav-more').classList.add('active-link');
+                }
+            }
+
+            // Scroll to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // INITIALIZE PLUGINS
+        AOS.init({ duration: 800, once: true, offset: 100 });
+        var lightbox = GLightbox({ selector: '.glightbox', touchNavigation: true, loop: true });
+
+        // GEMINI API INTEGRATION LOGIC
+        const apiKey = ""; 
+        const systemPrompt = `You are the virtual engineering assistant for Miguel Sierra, a Mechanical Engineering student at Kennesaw State University. 
+        Miguel is the founder of Creanza 3D, and specializes in additive manufacturing (Bambu Lab workflows), 6-axis robotics integration, hardware modification, and is CSWP/CSWA certified in SolidWorks. 
+        
+        A visitor (likely a recruiter or potential client) will describe a mechanical engineering challenge. 
+        
+        Your task:
+        1. Briefly offer a professional insight or suggestion for their challenge.
+        2. Explicitly explain why Miguel's specific skills make him the perfect engineer to hire for this exact problem.
+        
+        Keep your response enthusiastic, highly professional, and concise. Format the text using basic markdown for readability (bolding key terms).`;
+
+        async function fetchGeminiWithBackoff(prompt, maxRetries = 5) {
+            const delays = [1000, 2000, 4000, 8000, 16000];
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = { contents: [{ parts: [{ text: prompt }] }], systemInstruction: { parts: [{ text: systemPrompt }] } };
+
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    const data = await response.json();
+                    return data.candidates[0].content.parts[0].text;
+                } catch (error) {
+                    if (i === maxRetries - 1) throw error;
+                    await new Promise(resolve => setTimeout(resolve, delays[i]));
+                }
+            }
+        }
+
+        document.getElementById('ai-btn').addEventListener('click', async () => {
+            const inputField = document.getElementById('ai-input');
+            const input = inputField.value.trim();
+            if(!input) { inputField.style.borderColor = "red"; setTimeout(() => inputField.style.borderColor = "#e8e8e6", 2000); return; }
+            
+            const btn = document.getElementById('ai-btn');
+            const loading = document.getElementById('ai-loading');
+            const output = document.getElementById('ai-output');
+            
+            btn.disabled = true; btn.innerHTML = 'Analyzing...'; loading.classList.remove('hidden'); output.classList.add('hidden');
+            
+            try {
+                const markdownText = await fetchGeminiWithBackoff(input);
+                output.innerHTML = marked.parse(markdownText);
+                output.classList.remove('hidden');
+            } catch (err) {
+                output.innerHTML = "<em>Sorry, the AI consultant is currently experiencing high traffic. Please reach out to Miguel directly via email!</em>";
+                output.classList.remove('hidden');
+            } finally {
+                btn.disabled = false; btn.innerHTML = 'Analyze Project Fit ✨'; loading.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
